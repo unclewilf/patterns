@@ -2,40 +2,17 @@ package fluentreflection;
 
 import com.google.common.base.Strings;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FluentPersonFactory {
-
-    private final Person person;
+public class FluentPersonFactory extends ReflectiveFactory<Person> {
 
     private FluentPersonFactory() {
-        this.person = new Person();
+        super(Person.class);
     }
 
     public static FluentPersonFactory person() {
         return new FluentPersonFactory();
-    }
-
-    private void setField(String fieldName, Object newValue) {
-        try {
-            Field field = person.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(person, newValue);
-        } catch (Exception e) {
-            System.out.println("No workie!");
-        }
-    }
-
-    private String getField(String fieldName) {
-        try {
-            Field field = person.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return (String) field.get(person);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     public FluentPersonFactory firstName(String firstName) {
@@ -63,12 +40,7 @@ public class FluentPersonFactory {
         return this;
     }
 
-    public Person create() throws CreatePersonException {
-        validate();
-        return person;
-    }
-
-    private void validate() {
+    protected void validate() {
         Collection<String> missingParameters = new ArrayList<String>();
         if (Strings.isNullOrEmpty(getField("firstName"))) {
             missingParameters.add("first name");
@@ -76,7 +48,7 @@ public class FluentPersonFactory {
         if (Strings.isNullOrEmpty(getField("lastName"))) {
             missingParameters.add("last name");
         }
-        if (person.getAge() == null) {
+        if (object.getAge() == null) {
             missingParameters.add("age");
         }
         if (!missingParameters.isEmpty()) {

@@ -1,4 +1,4 @@
-package fluentreflection;
+package fluent.fluentreflection;
 
 public class Person {
 

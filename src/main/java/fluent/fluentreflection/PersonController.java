@@ -1,4 +1,4 @@
-package fluentreflection;
+package fluent.fluentreflection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,11 @@ public class PersonController {
     private FluentPersonFactory fluentPersonFactory;
 
     public String handle() {
+        long timeBefore = System.currentTimeMillis();
         Person person = fluentPersonFactory.firstName("uncle").lastName("bob").age(68).inactive().create();
+        long timeAfter = System.currentTimeMillis();
+        System.out.println("Total time: " + (timeAfter - timeBefore));
+
         return person.isNamed();
     }
 

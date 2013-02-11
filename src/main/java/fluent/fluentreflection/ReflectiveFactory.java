@@ -1,4 +1,4 @@
-package fluentreflection;
+package fluent.fluentreflection;
 
 import java.lang.reflect.Field;
 

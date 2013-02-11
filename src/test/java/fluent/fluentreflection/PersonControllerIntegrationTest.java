@@ -1,4 +1,4 @@
-package fluentreflection;
+package fluent.fluentreflection;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,11 @@
-package fluentreflection;
+package fluent.fluentfactory;
 
 import org.junit.Test;
 
-import static fluentreflection.FluentPersonFactory.person;
-import static junit.framework.Assert.*;
+import static fluent.fluentfactory.FluentPersonFactory.person;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 public class FluentPersonFactoryTest {
 
@@ -20,10 +22,13 @@ public class FluentPersonFactoryTest {
 
     @Test
     public void personCreatedWithAllRequiredParameters() throws Exception {
+        long timeBefore = System.currentTimeMillis();
         Person person =
                 person().firstName("joe").lastName("bloggs").age(21).active().create();
-        assertEquals("joe bloggs", person.isNamed());
-        assertEquals(21, person.isAged().intValue());
+        long timeAfter = System.currentTimeMillis();
+        System.out.println("Total time: " + (timeAfter - timeBefore));
+        assertEquals("joe bloggs", person.getFullName());
+        assertEquals(21, person.getAge().intValue());
         assertTrue(person.isActive());
     }
 

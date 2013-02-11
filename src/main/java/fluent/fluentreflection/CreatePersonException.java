@@ -1,4 +1,4 @@
-package fluentreflection;
+package fluent.fluentreflection;
 
 import com.google.common.base.Joiner;
 

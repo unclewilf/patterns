@@ -1,16 +1,14 @@
-package fluent;
+package fluent.fluentreflection;
 
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FluentPersonFactory {
-
-    private final Person person;
+public class FluentPersonFactory extends ReflectiveFactory<Person> {
 
     private FluentPersonFactory() {
-        this.person = new Person();
+        super(Person.class);
     }
 
     public static FluentPersonFactory person() {
@@ -18,44 +16,39 @@ public class FluentPersonFactory {
     }
 
     public FluentPersonFactory firstName(String firstName) {
-        person.setFirstName(firstName);
+        setField("firstName", firstName);
         return this;
     }
 
     public FluentPersonFactory lastName(String lastName) {
-        person.setLastName(lastName);
+        setField("lastName", lastName);
         return this;
     }
 
     public FluentPersonFactory age(int age) {
-        person.setAge(age);
+        setField("age", age);
         return this;
     }
 
     public FluentPersonFactory active() {
-        person.setActive(true);
+        setField("isActive", true);
         return this;
     }
 
     public FluentPersonFactory inactive() {
-        person.setActive(false);
+        setField("isActive", false);
         return this;
     }
 
-    public Person create() throws CreatePersonException {
-        validate();
-        return person;
-    }
-
-    private void validate() {
+    protected void validate() {
         Collection<String> missingParameters = new ArrayList<String>();
-        if (Strings.isNullOrEmpty(person.getFirstName())) {
+        if (Strings.isNullOrEmpty(getField("firstName"))) {
             missingParameters.add("first name");
         }
-        if (Strings.isNullOrEmpty(person.getLastName())) {
+        if (Strings.isNullOrEmpty(getField("lastName"))) {
             missingParameters.add("last name");
         }
-        if (person.getAge() == null) {
+        if (object.isAged() == null) {
             missingParameters.add("age");
         }
         if (!missingParameters.isEmpty()) {

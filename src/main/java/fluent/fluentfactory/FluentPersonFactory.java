@@ -1,14 +1,16 @@
-package fluentreflection;
+package fluent.fluentfactory;
 
 import com.google.common.base.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class FluentPersonFactory extends ReflectiveFactory<Person> {
+public class FluentPersonFactory {
+
+    private final Person person;
 
     private FluentPersonFactory() {
-        super(Person.class);
+        this.person = new Person();
     }
 
     public static FluentPersonFactory person() {
@@ -16,39 +18,44 @@ public class FluentPersonFactory extends ReflectiveFactory<Person> {
     }
 
     public FluentPersonFactory firstName(String firstName) {
-        setField("firstName", firstName);
+        person.setFirstName(firstName);
         return this;
     }
 
     public FluentPersonFactory lastName(String lastName) {
-        setField("lastName", lastName);
+        person.setLastName(lastName);
         return this;
     }
 
     public FluentPersonFactory age(int age) {
-        setField("age", age);
+        person.setAge(age);
         return this;
     }
 
     public FluentPersonFactory active() {
-        setField("isActive", true);
+        person.setActive(true);
         return this;
     }
 
     public FluentPersonFactory inactive() {
-        setField("isActive", false);
+        person.setActive(false);
         return this;
     }
 
-    protected void validate() {
+    public Person create() throws CreatePersonException {
+        validate();
+        return person;
+    }
+
+    private void validate() {
         Collection<String> missingParameters = new ArrayList<String>();
-        if (Strings.isNullOrEmpty(getField("firstName"))) {
+        if (Strings.isNullOrEmpty(person.getFirstName())) {
             missingParameters.add("first name");
         }
-        if (Strings.isNullOrEmpty(getField("lastName"))) {
+        if (Strings.isNullOrEmpty(person.getLastName())) {
             missingParameters.add("last name");
         }
-        if (object.isAged() == null) {
+        if (person.getAge() == null) {
             missingParameters.add("age");
         }
         if (!missingParameters.isEmpty()) {

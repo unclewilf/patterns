@@ -1,11 +1,9 @@
-package fluent;
+package fluent.fluentreflection;
 
 import org.junit.Test;
 
-import static fluent.FluentPersonFactory.person;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
+import static fluent.fluentreflection.FluentPersonFactory.person;
+import static junit.framework.Assert.*;
 
 public class FluentPersonFactoryTest {
 
@@ -24,8 +22,8 @@ public class FluentPersonFactoryTest {
     public void personCreatedWithAllRequiredParameters() throws Exception {
         Person person =
                 person().firstName("joe").lastName("bloggs").age(21).active().create();
-        assertEquals("joe bloggs", person.getFullName());
-        assertEquals(21, person.getAge().intValue());
+        assertEquals("joe bloggs", person.isNamed());
+        assertEquals(21, person.isAged().intValue());
         assertTrue(person.isActive());
     }
 

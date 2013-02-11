@@ -1,4 +1,4 @@
-package fluent;
+package fluent.fluentfactory;
 
 import com.google.common.base.Joiner;
 

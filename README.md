@@ -78,3 +78,20 @@ http://f3yourmind.net/blog/software-development/factories-builders-and-fluent-in
 
 Stubbing example came from here
 http://jakegoulding.com/blog/2012/01/09/stubbing-builder-pattern-in-mockito/
+
+========================================
+
+Decorator:
+(From GOF) Allows for the dynamic wrapping of objects in order to modify their existing responsibilities and behaviours.
+
+Explained nicely here:
+http://java.dzone.com/articles/design-patterns-decorator
+
+This can be done by subclassing.
+But too much subclassing is definitely a bad thing.
+As you add more behaviours to a base class,
+you will soon find yourself dealing with maintenance nightmare,
+as a new class is created for each possible combination.
+
+Overuse of the Open/Closed principle can lead to abstract and complex code.
+This principle should really only be used in places where code is least likely to change.

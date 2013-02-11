@@ -35,4 +35,29 @@ If you have an overloaded method in your repository for different implementation
 You might not know which specification you are going to have;
 This way you ask the specification to call the correct method in the repository.
 
+========================================
 
+Fluent:
+The term fluent interface was coined by Eric Evans who wrote Domain Driven Design,
+and describes the process of making your API more understandable to read.
+
+JMock is a nice example of a fluent interface:
+mock.expects(once()).method("m").with( or(stringContains("hello"),
+                                          stringContains("howdy")) );
+
+Often this means a class could have setters which return a value instead of void,
+to allow chaining of commands;
+
+Fluent reflection:
+Here I have created an example with all of the setters taken out of my java bean,
+and used a static factory pattern to create the object using reflection.
+A Spring bean with factory-method at prototype scope has been used for dependency injection
+
+Pattern usage:
+For building complicated domain entities or value objects in a more readable way
+
+Factory example came from here:
+http://f3yourmind.net/blog/software-development/factories-builders-and-fluent-interfaces
+
+Stubbing example came from here
+http://jakegoulding.com/blog/2012/01/09/stubbing-builder-pattern-in-mockito/

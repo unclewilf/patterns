@@ -45,13 +45,30 @@ JMock is a nice example of a fluent interface:
 mock.expects(once()).method("m").with( or(stringContains("hello"),
                                           stringContains("howdy")) );
 
-Often this means a class could have setters which return a value instead of void,
-to allow chaining of commands;
+Fluent bean:
+This shows a class with setters which return a value instead of void,
+to allow chaining of commands.
+This means complicated construction logic still lives in the class,
+but fine for simpler objects.
+
+Still means all setters are present.
+Could use a constructor, but I think this should be for mandatory fields only,
+rather than a way of passing everything in.
+
+Fluent factory:
+This shows an example of using a factory to provide a fluent interface to the bean,
+with standard getters and setters.
+The advantage of this technique, is complicated construction logic can be hidden away,
+but still leaves boiler plate getters and setters.
 
 Fluent reflection:
 Here I have created an example with all of the setters taken out of my java bean,
 and used a static factory pattern to create the object using reflection.
-A Spring bean with factory-method at prototype scope has been used for dependency injection
+A Spring bean with factory-method at prototype scope has been used for dependency injection.
+
+The disadvantage here is using reflection means creating the bean takes fractionally longer,
+and the code to do the reflection is a little complicated.
+This leaves you with a really clean, understandable domain object.
 
 Pattern usage:
 For building complicated domain entities or value objects in a more readable way

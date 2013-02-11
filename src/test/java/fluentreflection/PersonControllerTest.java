@@ -3,7 +3,6 @@ package fluentreflection;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -30,7 +29,7 @@ public class PersonControllerTest {
     @Test
     public void stubbedFactory() {
         when(factory.create()).thenReturn(person);
-        when(person.getFullName()).thenReturn("ANY NAME");
+        when(person.isNamed()).thenReturn("ANY NAME");
         assertEquals("ANY NAME", personController.handle());
     }
 

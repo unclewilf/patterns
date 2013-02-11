@@ -22,8 +22,8 @@ public class FluentPersonFactoryTest {
     public void personCreatedWithAllRequiredParameters() throws Exception {
         Person person =
                 person().firstName("joe").lastName("bloggs").age(21).active().create();
-        assertEquals("joe bloggs", person.getFullName());
-        assertEquals(21, person.getAge().intValue());
+        assertEquals("joe bloggs", person.isNamed());
+        assertEquals(21, person.isAged().intValue());
         assertTrue(person.isActive());
     }
 

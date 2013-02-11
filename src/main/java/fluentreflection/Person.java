@@ -1,13 +1,13 @@
 package fluentreflection;
 
-public class Person
-{
+public class Person {
+
     private String firstName;
     private String lastName;
     private Integer age;
     private boolean isActive;
 
-    public String getFullName() {
+    public String isNamed() {
         return firstName + " " + lastName;
     }
 
@@ -15,7 +15,7 @@ public class Person
         return isActive;
     }
 
-    public Integer getAge() {
+    public Integer isAged() {
         return age;
     }
 

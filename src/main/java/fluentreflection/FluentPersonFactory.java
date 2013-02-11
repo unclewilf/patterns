@@ -48,7 +48,7 @@ public class FluentPersonFactory extends ReflectiveFactory<Person> {
         if (Strings.isNullOrEmpty(getField("lastName"))) {
             missingParameters.add("last name");
         }
-        if (object.getAge() == null) {
+        if (object.isAged() == null) {
             missingParameters.add("age");
         }
         if (!missingParameters.isEmpty()) {

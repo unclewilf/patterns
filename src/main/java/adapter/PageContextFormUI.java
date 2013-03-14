@@ -12,12 +12,12 @@ public class PageContextFormUI implements FormUI {
 
     @Override
     public String getCountryLabel() {
-        return (String) pageContext.getAttribute(FormUIConstants.COUNTRY_LABEL);
+        return (String) pageContext.getAttribute(FormUI.COUNTRY_LABEL);
     }
 
     @Override
     public String getCountryRegex() {
-        return (String) pageContext.getAttribute(FormUIConstants.COUNTRY_REGEX);
+        return (String) pageContext.getAttribute(FormUI.COUNTRY_REGEX);
     }
 
 }

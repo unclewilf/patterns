@@ -15,4 +15,9 @@ public class HttpRequestForm implements Form {
         return (String) request.getAttribute(Form.COUNTRY);
     }
 
+    @Override
+    public boolean isValid() {
+        return false;
+    }
+
 }

@@ -6,4 +6,5 @@ public interface Form {
 
     String getCountry();
 
+    boolean isValid();
 }

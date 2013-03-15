@@ -40,7 +40,10 @@ public class FormServletTest {
     @Test
     public void formFailsValidation_redirectsToOriginalLocationWithErrorsInSession() throws Exception {
         request.setParameter(FormServlet.FROM_URL, FROM_URL);
-        when(form.isValid()).thenReturn(false);
+        Validation validation = mock(Validation.class);
+
+        when(form.getValidation()).thenReturn(validation);
+        when(validation.hasErrors()).thenReturn(false);
 
         servlet.doPost(request, response);
 

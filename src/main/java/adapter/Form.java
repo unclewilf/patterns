@@ -4,7 +4,7 @@ public interface Form {
 
     String COUNTRY = "country";
 
-    String getCountry();
+    Validation getValidation();
 
-    boolean isValid();
+    String getCountry();
 }

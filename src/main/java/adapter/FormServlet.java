@@ -1,7 +1,5 @@
 package adapter;
 
-import com.sun.deploy.security.SessionCertStore;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +13,8 @@ public class FormServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Form form = getForm(req);
-        if (!form.isValid()) {
+        Validation validation = form.getValidation();
+        if (!validation.hasErrors()) {
             getFormSession().save(form);
             resp.sendRedirect(req.getParameter(FROM_URL));
         }

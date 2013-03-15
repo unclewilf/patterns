@@ -17,7 +17,7 @@ public class HttpRequestForm implements Form {
 
     @Override
     public Validation getValidation() {
-        return new FormValidation(this);
+        return new FormValidation(this, new FormErrorMessages(request));
     }
 
 }

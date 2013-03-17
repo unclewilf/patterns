@@ -1,24 +1,29 @@
 package adapter;
 
+import org.apache.sling.api.resource.ValueMap;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import javax.servlet.ServletRequest;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class FormValidationTest {
 
-    public static final String INVALID_REGEX_COUNTRY = "^^FAKE COUNTRY^^";
+    public static final String INVALID_REGEX_COUNTRY = "INVALID COUNTRY";
+    public static final String FAKE_COUNTRY_INVALID_MESSAGE = "Fake Country Invalid Message";
 
-    private MockHttpServletRequest request = new MockHttpServletRequest();
+    private ValueMap valueMap = mock(ValueMap.class);
 
     @Test
-    public void postcodeWithInvalidRegex() throws Exception {
-        FormValidation formValidation = new FormValidation(createFormWithCountry(INVALID_REGEX_COUNTRY), new FakeFormErrorMessages(request));
+    public void countryWithInvalidRegex() throws Exception {
+        when(valueMap.get(FormErrorMessages.COUNTRY_REGEX_INVALID, String.class)).thenReturn(FAKE_COUNTRY_INVALID_MESSAGE);
+
+        FormValidation formValidation = new FormValidation(createFormWithCountry(INVALID_REGEX_COUNTRY), new FormErrorMessages(valueMap));
+
         assertThat(formValidation.hasErrors(), equalTo(true));
-        assertThat(formValidation.validate().get(Validation.COUNTRY_REGEX_FAILED), equalTo(FakeFormErrorMessages.FAKE_REGEX_FAILED_MESSAGE));
+        assertThat(formValidation.validate().get(FormErrorMessages.COUNTRY_REGEX_INVALID), equalTo(FAKE_COUNTRY_INVALID_MESSAGE));
     }
 
     private Form createFormWithCountry(final String country) {
@@ -33,19 +38,5 @@ public class FormValidationTest {
                 return country;
             }
         };
-    }
-}
-
-class FakeFormErrorMessages extends FormErrorMessages {
-
-    public static final String FAKE_REGEX_FAILED_MESSAGE = "FAKE REGEX FAILED MESSAGE";
-
-    public FakeFormErrorMessages(ServletRequest request) {
-        super(request);
-    }
-
-    @Override
-    public String getRegexFailed() {
-        return FAKE_REGEX_FAILED_MESSAGE;
     }
 }

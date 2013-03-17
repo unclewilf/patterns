@@ -1,16 +1,19 @@
 package adapter;
 
-import javax.servlet.ServletRequest;
+import org.apache.sling.api.resource.ValueMap;
 
 public class FormErrorMessages {
 
-    private ServletRequest request;
+    public static final String COUNTRY_REGEX_INVALID = "countryRegexInvalid";
 
-    public FormErrorMessages(ServletRequest request) {
-        this.request = request;
+    private ValueMap valueMap;
+
+    public FormErrorMessages(ValueMap valueMap) {
+        this.valueMap = valueMap;
     }
 
-    public String getRegexFailed() {
-        return "";
+    public String getCountryRegexInvalid() {
+        return valueMap.get(COUNTRY_REGEX_INVALID, String.class);
     }
+
 }

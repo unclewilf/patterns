@@ -1,17 +1,18 @@
 package adapter;
 
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class FormServlet extends HttpServlet {
+public class FormServlet extends SlingAllMethodsServlet {
 
     public static final String FROM_URL = "fromURL";
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(SlingHttpServletRequest req, SlingHttpServletResponse resp) throws ServletException, IOException {
         Form form = getForm(req);
         Validation validation = form.getValidation();
         if (!validation.hasErrors()) {
@@ -20,9 +21,9 @@ public class FormServlet extends HttpServlet {
         }
     }
 
-    protected Form getForm(HttpServletRequest request) {
-        return new HttpRequestForm(request);
-    };
+    protected Form getForm(SlingHttpServletRequest request) {
+        return new SlingHttpRequestForm(request);
+    }
 
     protected FormSession getFormSession() {
         return new FormSession() {

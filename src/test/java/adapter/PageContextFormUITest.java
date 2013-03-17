@@ -14,7 +14,7 @@ public class PageContextFormUITest {
     @Test
     public void countryLabel() throws Exception {
         MockPageContext pageContext = new MockPageContext();
-        pageContext.setAttribute(FormUIConstants.COUNTRY_LABEL, FAKE_COUNTRY_LABEL);
+        pageContext.setAttribute(FormUI.COUNTRY_LABEL, FAKE_COUNTRY_LABEL);
         PageContextFormUI form = new PageContextFormUI(pageContext);
         assertThat(form.getCountryLabel(), equalTo(FAKE_COUNTRY_LABEL));
     }
@@ -22,7 +22,7 @@ public class PageContextFormUITest {
     @Test
     public void countryRegex() throws Exception {
         MockPageContext pageContext = new MockPageContext();
-        pageContext.setAttribute(FormUIConstants.COUNTRY_REGEX, FAKE_COUNTRY_REGEX);
+        pageContext.setAttribute(FormUI.COUNTRY_REGEX, FAKE_COUNTRY_REGEX);
         PageContextFormUI form = new PageContextFormUI(pageContext);
         assertThat(form.getCountryRegex(), equalTo(FAKE_COUNTRY_REGEX));
     }

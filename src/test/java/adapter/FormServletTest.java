@@ -1,32 +1,29 @@
 package adapter;
 
+import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
-import javax.servlet.http.HttpServletRequest;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FormServletTest {
 
-    public static final String FROM_URL = "/FROM/URL";
-    private MockHttpServletRequest request = new MockHttpServletRequest();
-    private MockHttpServletResponse response = new MockHttpServletResponse();
-    private FormServlet servlet;
+    public static final String FAKE_FROM_URL = "/FROM/URL";
+
+    private SlingHttpServletRequest request = mock(SlingHttpServletRequest.class);
+    private SlingHttpServletResponse response = mock(SlingHttpServletResponse.class);
     private Form form = mock(Form.class);
     private FormSession formSession = mock(FormSession.class);
+    private Validation validation = mock(Validation.class);
+
+    private FormServlet servlet;
 
     @Before
     public void setUp() throws Exception {
         servlet = new FormServlet(){
             @Override
-            protected Form getForm(HttpServletRequest request) {
+            protected Form getForm(SlingHttpServletRequest request) {
                 return form;
             }
 
@@ -39,18 +36,14 @@ public class FormServletTest {
 
     @Test
     public void formFailsValidation_redirectsToOriginalLocationWithErrorsInSession() throws Exception {
-        request.setParameter(FormServlet.FROM_URL, FROM_URL);
-        Validation validation = mock(Validation.class);
-
+        when(request.getParameter(FormServlet.FROM_URL)).thenReturn(FAKE_FROM_URL);
         when(form.getValidation()).thenReturn(validation);
         when(validation.hasErrors()).thenReturn(false);
 
         servlet.doPost(request, response);
 
-        assertThat(response.getRedirectedUrl(), equalTo(FROM_URL));
-
         verify(formSession).save(form);
+        verify(response).sendRedirect(FAKE_FROM_URL);
     }
-
 
 }

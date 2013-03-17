@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class FormValidation implements Validation {
 
+    private static final String COUNTRY_REGEX = "^[a-z]*$";
+
     private Form form;
     private FormErrorMessages errorMessages;
 
@@ -15,12 +17,15 @@ public class FormValidation implements Validation {
 
     @Override
     public boolean hasErrors() {
-        return validate().isEmpty();
+        return validate().size() > 0;
     }
 
     @Override
     public Map<String, String> validate() {
         Map<String, String> errors = new HashMap<String, String>();
+        if(!form.getCountry().matches(COUNTRY_REGEX)) {
+            errors.put(FormErrorMessages.COUNTRY_REGEX_INVALID, errorMessages.getCountryRegexInvalid());
+        }
         return errors;
     }
 

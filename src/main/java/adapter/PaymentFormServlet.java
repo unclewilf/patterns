@@ -2,6 +2,7 @@ package adapter;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import javax.servlet.ServletException;
@@ -13,23 +14,27 @@ public class PaymentFormServlet extends SlingAllMethodsServlet {
 
     @Override
     protected void doPost(SlingHttpServletRequest req, SlingHttpServletResponse resp) throws ServletException, IOException {
-        Payment payment = getForm(req);
-        Validation validation = payment.getValidation();
+        PaymentForm form = getForm(req);
+        Validation validation = form.getBooking().getValidation();
         if (!validation.hasErrors()) {
-            getFormSession().save(payment);
+            getFormSession().save(form);
             resp.sendRedirect(req.getParameter(FROM_URL));
         }
     }
 
-    protected Payment getForm(SlingHttpServletRequest request) {
-        return new SlingHttpRequestPayment(request);
+    protected PaymentForm getForm(SlingHttpServletRequest request) {
+        SubmittedPaymentForm paymentForm = new SubmittedPaymentForm(new SlingHttpRequestPayment(request), new SlingPaymentFormUI(getValueMap(request), new SlingFormErrorMessages(getValueMap(request))));
+        return paymentForm;
+    }
+
+    private ValueMap getValueMap(SlingHttpServletRequest request) {
+        return request.getResource().adaptTo(ValueMap.class);
     }
 
     protected FormSession getFormSession() {
         return new FormSession() {
             @Override
-            public void save(Payment payment) {
-                //do nothing
+            public void save(PaymentForm payment) {
             }
         };
     }

@@ -1,5 +1,5 @@
 package adapter;
 
 public interface FormSession {
-    void save(Form form);
+    void save(Payment payment);
 }

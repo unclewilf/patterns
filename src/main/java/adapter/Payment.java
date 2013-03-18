@@ -1,10 +1,10 @@
 package adapter;
 
-public interface Form {
+public interface Payment {
 
     String COUNTRY = "country";
 
     Validation getValidation();
 
-    String getCountry();
+    Country getCountry();
 }

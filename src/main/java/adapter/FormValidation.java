@@ -5,13 +5,11 @@ import java.util.Map;
 
 public class FormValidation implements Validation {
 
-    private static final String COUNTRY_REGEX = "^[a-z]*$";
+    private Payment payment;
+    private SlingFormErrorMessages errorMessages;
 
-    private Form form;
-    private FormErrorMessages errorMessages;
-
-    public FormValidation(Form form, FormErrorMessages errorMessages) {
-        this.form = form;
+    public FormValidation(Payment payment, SlingFormErrorMessages errorMessages) {
+        this.payment = payment;
         this.errorMessages = errorMessages;
     }
 
@@ -23,8 +21,9 @@ public class FormValidation implements Validation {
     @Override
     public Map<String, String> validate() {
         Map<String, String> errors = new HashMap<String, String>();
-        if(!form.getCountry().matches(COUNTRY_REGEX)) {
-            errors.put(FormErrorMessages.COUNTRY_REGEX_INVALID, errorMessages.getCountryRegexInvalid());
+        Country country = payment.getCountry();
+        if(!country.getCountry().matches(country.getCountryRegex())) {
+            errors.put(SlingFormErrorMessages.COUNTRY_REGEX_INVALID, errorMessages.getCountryRegexInvalid());
         }
         return errors;
     }

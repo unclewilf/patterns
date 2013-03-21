@@ -15,7 +15,6 @@ public class PaymentFormServletTest {
     private SlingHttpServletResponse response = mock(SlingHttpServletResponse.class);
     private PaymentForm form = mock(PaymentForm.class);
     private FormSession formSession = mock(FormSession.class);
-    private Validation validation = mock(Validation.class);
 
     private PaymentFormServlet servlet;
     private Payment payment = mock(Payment.class);
@@ -39,8 +38,6 @@ public class PaymentFormServletTest {
     public void formFailsValidation_redirectsToOriginalLocationWithErrorsInSession() throws Exception {
         when(request.getParameter(PaymentFormServlet.FROM_URL)).thenReturn(FAKE_FROM_URL);
         when(form.getBooking()).thenReturn(payment);
-        when(payment.getValidation()).thenReturn(validation);
-        when(validation.hasErrors()).thenReturn(false);
 
         servlet.doPost(request, response);
 

@@ -15,11 +15,11 @@ public class PaymentFormServlet extends SlingAllMethodsServlet {
     @Override
     protected void doPost(SlingHttpServletRequest req, SlingHttpServletResponse resp) throws ServletException, IOException {
         PaymentForm form = getForm(req);
-        Validation validation = form.getBooking().getValidation();
-        if (!validation.hasErrors()) {
-            getFormSession().save(form);
-            resp.sendRedirect(req.getParameter(FROM_URL));
-        }
+//        Validation validation = form.getBooking().getValidation();
+//        if (!validation.hasErrors()) {
+//            getFormSession().save(form);
+//            resp.sendRedirect(req.getParameter(FROM_URL));
+//        }
     }
 
     protected PaymentForm getForm(SlingHttpServletRequest request) {

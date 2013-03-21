@@ -19,11 +19,6 @@ public class SlingHttpRequestPayment implements Payment {
         return country;
     }
 
-    @Override
-    public Validation getValidation() {
-        return new FormValidation(this, new SlingFormErrorMessages(getValueMap()));
-    }
-
     private ValueMap getValueMap() {
         return request.getResource().adaptTo(ValueMap.class);
     }

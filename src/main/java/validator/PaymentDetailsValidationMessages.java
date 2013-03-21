@@ -1,8 +1,10 @@
 package validator;
 
-public interface PaymentDetailsValidationMessages {
+public class PaymentDetailsValidationMessages implements CountryValidationMessages {
 
-    String getCountryInvalidRegex();
-
+    @Override
+    public String getCountryInvalidRegex() {
+        return null;
+    }
 
 }

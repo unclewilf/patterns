@@ -7,8 +7,6 @@ import java.util.List;
 
 public class PaymentDetails {
 
-    protected static final String COUNTRY_FIELD = "country";
-
     private Country country;
 
     private List<ValidationError> validationErrors = new ArrayList<ValidationError>();
@@ -18,7 +16,7 @@ public class PaymentDetails {
     }
 
     public PaymentDetails(SlingHttpServletRequest request, PaymentDetailsValidationMessages validationMessages) {
-        this.country = new Country(request.getParameter(COUNTRY_FIELD), validationMessages);
+        this.country = new Country(request.getParameter(Country.COUNTRY_FIELD), validationMessages);
     }
 
     public Country getCountry() {
@@ -26,7 +24,7 @@ public class PaymentDetails {
     }
 
     public List<ValidationError> validate() {
-        validationErrors.addAll(country.validateForPaymentDetails());
+        validationErrors.addAll(country.validate());
         return validationErrors;
     }
 }

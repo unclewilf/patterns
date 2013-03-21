@@ -16,15 +16,15 @@ import static org.mockito.Mockito.when;
 
 public class PaymentDetailsFormTest {
 
-    public static final String PAGE_CONTEXT_VALUE_MAP_PROPERTY = "properties";
-    public static final String FAKE_COUNTRY_INVALID_REGEX = "Fake country invalid regex";
-    public static final String GB_COUNTRY_CODE = "GB country code";
     private ValueMap valueMap = mock(ValueMap.class);
-    private PaymentDetailsValidationMessages validationMessages = mock(PaymentDetailsValidationMessages.class);
-
     private PageContext pageContext = mock(PageContext.class);
     private SlingHttpServletRequest request = mock(SlingHttpServletRequest.class);
     private Resource resource = mock(Resource.class);
+
+    public static final String PAGE_CONTEXT_VALUE_MAP_PROPERTY = "properties";
+    public static final String FAKE_COUNTRY_INVALID_REGEX = "Fake country invalid regex";
+    public static final String VALID_COUNTRY = "valid";
+    public static final String INVALID_COUNTRY = "INVALID";
 
     @Before
     public void setUp() throws Exception {
@@ -34,11 +34,9 @@ public class PaymentDetailsFormTest {
     }
 
     @Test
-    public void newFormContainsCountryWithValidationRules() throws Exception {
-        when(validationMessages.getCountryInvalidRegex()).thenReturn(FAKE_COUNTRY_INVALID_REGEX);
-
-        PaymentDetailsForm form = PaymentDetailsForm.emptyForm(pageContext, validationMessages);
-        List<ValidationRule> validationRuleList = form.getPaymentDetails().getCountry().getPaymentDetailsValidationRules();
+    public void emptyFormContainsCountryWithValidationRules() throws Exception {
+        PaymentDetailsForm form = PaymentDetailsForm.emptyForm(pageContext, new FakePaymentDetailsValidationMessages());
+        List<ValidationRule> validationRuleList = form.getPaymentDetails().getCountry().getValidationRules();
         ValidationRule validationRule = validationRuleList.get(0);
 
         assertThat(validationRule.getType(), equalTo(ValidationRuleType.REGEX));
@@ -48,28 +46,33 @@ public class PaymentDetailsFormTest {
 
     @Test
     public void formSubmittedWithValidCountry() throws Exception {
-        when(request.getParameter(PaymentDetails.COUNTRY_FIELD)).thenReturn(GB_COUNTRY_CODE);
+        when(request.getParameter(Country.COUNTRY_FIELD)).thenReturn(VALID_COUNTRY);
 
-        PaymentDetailsForm form = PaymentDetailsForm.submittedForm(request, validationMessages);
-        assertThat(form.getPaymentDetails().getCountry().getCode(), equalTo(GB_COUNTRY_CODE));
+        PaymentDetailsForm form = PaymentDetailsForm.submittedForm(request, new FakePaymentDetailsValidationMessages());
+
+        assertThat(form.getPaymentDetails().getCountry().getCode(), equalTo(VALID_COUNTRY));
         assertThat(form.getPaymentDetails().validate().isEmpty(), equalTo(true));
     }
 
-    //    @Test
-//    public void returnCountryWhenFormSubmitted() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void returnAllCountryValidationRulesForJS() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void returnCountryWithValidationErrors() throws Exception {
-//
-//
-//    }
+    @Test
+    public void formSubmittedWithInvalidCountryRegex() throws Exception {
+        when(request.getParameter(Country.COUNTRY_FIELD)).thenReturn(INVALID_COUNTRY);
 
+        PaymentDetailsForm form = PaymentDetailsForm.submittedForm(request, new FakePaymentDetailsValidationMessages());
+        PaymentDetails paymentDetails = form.getPaymentDetails();
+
+        assertThat(paymentDetails.getCountry().getCode(), equalTo(INVALID_COUNTRY));
+        assertThat(paymentDetails.validate().get(0).getField(), equalTo(Country.COUNTRY_FIELD));
+        assertThat(paymentDetails.validate().get(0).getMessage(), equalTo(FAKE_COUNTRY_INVALID_REGEX));
+    }
+
+}
+
+class FakePaymentDetailsValidationMessages extends PaymentDetailsValidationMessages {
+
+    @Override
+    public String getCountryInvalidRegex() {
+            return PaymentDetailsFormTest.FAKE_COUNTRY_INVALID_REGEX;
+    }
 
 }

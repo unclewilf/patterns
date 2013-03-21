@@ -3,19 +3,20 @@ package validator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Country implements PaymentDetailsValidator, YourNewValidatorGoesHere {
+public class Country implements Validator {
 
+    protected static final String COUNTRY_FIELD = "country";
     public static final String COUNTRY_REGEX = "^[a-z]*$";
 
-    private PaymentDetailsValidationMessages validationMessages;
+    private CountryValidationMessages validationMessages;
 
     private String country;
 
-    public Country(PaymentDetailsValidationMessages validationMessages) {
+    public Country(CountryValidationMessages validationMessages) {
         this.validationMessages = validationMessages;
     }
 
-    public Country(String country, PaymentDetailsValidationMessages validationMessages) {
+    public Country(String country, CountryValidationMessages validationMessages) {
         this.country = country;
         this.validationMessages = validationMessages;
     }
@@ -25,14 +26,18 @@ public class Country implements PaymentDetailsValidator, YourNewValidatorGoesHer
     }
 
     @Override
-    public List<ValidationRule> getPaymentDetailsValidationRules() {
+    public List<ValidationRule> getValidationRules() {
         List<ValidationRule> validationRules = new ArrayList<ValidationRule>();
         validationRules.add(new ValidationRule(ValidationRuleType.REGEX, COUNTRY_REGEX, validationMessages.getCountryInvalidRegex()));
         return validationRules;
     }
 
     @Override
-    public List<ValidationError> validateForPaymentDetails() {
-        return new ArrayList<ValidationError>();
+    public List<ValidationError> validate() {
+        List<ValidationError> validationErrors = new ArrayList<ValidationError>();
+        if (!country.matches(COUNTRY_REGEX)) {
+            validationErrors.add(new ValidationError(COUNTRY_FIELD, validationMessages.getCountryInvalidRegex()));
+        }
+        return validationErrors;
     }
 }

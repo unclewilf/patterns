@@ -1,5 +1,6 @@
 package recursion;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.math.BigInteger;
@@ -22,6 +23,7 @@ public class FibonacciTest {
     }
 
     @Test
+    @Ignore(value = "This will take some time!!!")
     public void whatIsThisMassiveNumber() throws Exception {
         int testNumber = 50;
         BigInteger number = fib.calculate(testNumber);

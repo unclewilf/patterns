@@ -1,10 +1,10 @@
 package hexagonal;
 
 import com.google.common.collect.Iterables;
-import hexagonal.adapters.EmployeeFileDateFormatter;
-import hexagonal.application.FileReadingEmployeeRepository;
+import hexagonal.application.EmployeeRepository;
 import hexagonal.domain.Employee;
-import hexagonal.domain.EmployeeRepository;
+import hexagonal.interfaces.EmployeeFileDateFormatter;
+import hexagonal.interfaces.FileReadingEmployeeRepository;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
-public class EmployeeRepositoryTest {
+public class ReadEmployeesFromFileTest {
 
     private EmployeeRepository repository;
     private Iterable<Employee> employees;

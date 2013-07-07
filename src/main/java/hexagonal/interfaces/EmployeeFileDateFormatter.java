@@ -1,4 +1,4 @@
-package hexagonal.adapters;
+package hexagonal.interfaces;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;

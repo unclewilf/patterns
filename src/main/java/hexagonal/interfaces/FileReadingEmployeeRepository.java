@@ -1,8 +1,10 @@
-package hexagonal.application;
+package hexagonal.interfaces;
 
-import hexagonal.adapters.EmployeeFileDateFormatter;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import hexagonal.application.EmployeeRepository;
 import hexagonal.domain.Employee;
-import hexagonal.domain.EmployeeRepository;
+import org.joda.time.DateTime;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,6 +35,17 @@ public class FileReadingEmployeeRepository implements EmployeeRepository {
         }
 
         return employees;
+    }
+
+    @Override
+    public Iterable<Employee> employeesWithBirthdayRetrieved(final DateTime today) {
+        Iterables.filter(employeesRetrieved(), new Predicate<Employee>() {
+            @Override
+            public boolean apply(Employee employee) {
+                return today.dayOfYear().equals(employee.getDateOfBirth().dayOfYear());
+            }
+        });
+        return employeesRetrieved();
     }
 
     private Employee createEmployee(String fileEntry) {

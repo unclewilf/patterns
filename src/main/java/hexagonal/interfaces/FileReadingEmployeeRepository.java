@@ -2,6 +2,7 @@ package hexagonal.interfaces;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
+import hexagonal.application.EmailService;
 import hexagonal.application.EmployeeRepository;
 import hexagonal.domain.Employee;
 import org.joda.time.DateTime;
@@ -38,7 +39,7 @@ public class FileReadingEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public Iterable<Employee> employeesWithBirthdayRetrieved(final DateTime today) {
+    public Iterable<Employee> employeesWithBirthdayRetrieved(final DateTime today, EmailService emailService) {
         Iterables.filter(employeesRetrieved(), new Predicate<Employee>() {
             @Override
             public boolean apply(Employee employee) {

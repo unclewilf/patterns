@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
@@ -26,7 +27,7 @@ public class ReadEmployeesFromFileTest {
 
     @Test
     public void canReadOneEmployeeRecordFromAFile() throws Exception {
-        assertThat(Iterables.size(employees), is(greaterThan(0)));
+        assertThat(Iterables.size(employees), is(equalTo(2)));
     }
 
     @Test
@@ -53,7 +54,7 @@ public class ReadEmployeesFromFileTest {
 
     @Test
     public void allEmployeesReadFromFile() throws Exception {
-        assertThat(Iterables.size(employees), is(2));
+        assertThat(Iterables.size(employees), is(greaterThan(0)));
     }
 
     private Employee getFirstEmployee() {

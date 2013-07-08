@@ -26,7 +26,7 @@ public class FilterEmployeesWithBirthdayTodayTest {
     public void onlyEmployeesWithBirthdayFiltered() throws Exception {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy/MM/dd");
 
-        Iterable<Employee> employees = repository.employeesWithBirthdayRetrieved(fmt.parseDateTime("2020/10/08"), null);
+        Iterable<Employee> employees = repository.employeesWithBirthday(fmt.parseDateTime("2020/10/08"));
 
         assertThat(Iterables.size(employees), is(equalTo(1)));
     }

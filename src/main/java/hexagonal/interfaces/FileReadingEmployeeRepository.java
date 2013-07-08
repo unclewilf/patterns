@@ -39,14 +39,18 @@ public class FileReadingEmployeeRepository implements EmployeeRepository {
     }
 
     @Override
-    public Iterable<Employee> employeesWithBirthdayRetrieved(final DateTime today, EmailService emailService) {
-        Iterables.filter(employeesRetrieved(), new Predicate<Employee>() {
+    public Iterable<Employee> employeesWithBirthdayEmailed(final DateTime today, EmailService emailService) {
+        Iterable<Employee> employees = Iterables.filter(employeesRetrieved(), new Predicate<Employee>() {
             @Override
             public boolean apply(Employee employee) {
-                return today.dayOfYear().equals(employee.getDateOfBirth().dayOfYear());
+                return today.dayOfMonth().equals(employee.getDateOfBirth().dayOfMonth()) &&
+                        today.monthOfYear().equals(employee.getDateOfBirth().monthOfYear());
             }
         });
-        return employeesRetrieved();
+        if (emailService != null) {
+            emailService.emailSent();
+        }
+        return employees;
     }
 
     private Employee createEmployee(String fileEntry) {

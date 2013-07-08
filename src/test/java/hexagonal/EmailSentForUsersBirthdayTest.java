@@ -30,7 +30,7 @@ public class EmailSentForUsersBirthdayTest {
     public void emailSentForUsersBirthday() throws Exception {
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy/MM/dd");
 
-        repository.employeesWithBirthdayRetrieved(fmt.parseDateTime("2020/10/08"), emailService);
+        repository.employeesWithBirthdayEmailed(fmt.parseDateTime("2020/10/08"), emailService);
 
         assertThat(smtpServer.getReceivedEmailSize(), is(equalTo(1)));
     }
